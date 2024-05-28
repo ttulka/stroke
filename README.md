@@ -17,7 +17,7 @@ Stroke code consists only of stroke symbols `/`, `|`, `\`, and white spaces to s
 ### Commands
 
 | Command | Name | Meaning |
-| -====-- | ---- | ------- |
+| ------- | ---- | ------- |
 | `/ var` | Loop start | Enters a new loop if *var* is non-zero |
 | `\` | Loop end | Jumps back to the corresponding loop start |
 | `\|` × *n* | Flip value | Flips the value of the variable *n*-1 |
