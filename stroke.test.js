@@ -15,6 +15,10 @@ test('error: invalid loop end', () => {
     expect(() => stroke('/ | \\ \\')).toThrow()
 })
 
+test('infinite loop', () => {
+    expect(() => stroke('| / | \\')).toThrow()
+})
+
 test('empty', () => {
     expect(stroke('')).toEqual('')
 })
@@ -109,28 +113,28 @@ test('NZ 4-bit', () => {
 })
 
 test('CLR', () => {
-    const inc = expandVariables(`
+    const clr = expandVariables(`
     / 0 0 \\
     / 1 1 \\
     / 2 2 \\
     / 3 3 \\
     `)
-    expect(stroke(inc, '0000')).toEqual('')
-    expect(stroke(inc, '0001')).toEqual('')
-    expect(stroke(inc, '0010')).toEqual('')
-    expect(stroke(inc, '0011')).toEqual('')
-    expect(stroke(inc, '0100')).toEqual('')
-    expect(stroke(inc, '0101')).toEqual('')
-    expect(stroke(inc, '0110')).toEqual('')
-    expect(stroke(inc, '0111')).toEqual('')
-    expect(stroke(inc, '1000')).toEqual('')
-    expect(stroke(inc, '1001')).toEqual('')
-    expect(stroke(inc, '1010')).toEqual('')
-    expect(stroke(inc, '1011')).toEqual('')
-    expect(stroke(inc, '1100')).toEqual('')
-    expect(stroke(inc, '1101')).toEqual('')
-    expect(stroke(inc, '1110')).toEqual('')
-    expect(stroke(inc, '1111')).toEqual('')
+    expect(stroke(clr, '0000')).toEqual('')
+    expect(stroke(clr, '0001')).toEqual('')
+    expect(stroke(clr, '0010')).toEqual('')
+    expect(stroke(clr, '0011')).toEqual('')
+    expect(stroke(clr, '0100')).toEqual('')
+    expect(stroke(clr, '0101')).toEqual('')
+    expect(stroke(clr, '0110')).toEqual('')
+    expect(stroke(clr, '0111')).toEqual('')
+    expect(stroke(clr, '1000')).toEqual('')
+    expect(stroke(clr, '1001')).toEqual('')
+    expect(stroke(clr, '1010')).toEqual('')
+    expect(stroke(clr, '1011')).toEqual('')
+    expect(stroke(clr, '1100')).toEqual('')
+    expect(stroke(clr, '1101')).toEqual('')
+    expect(stroke(clr, '1110')).toEqual('')
+    expect(stroke(clr, '1111')).toEqual('')
 })
 
 test('INC', () => {
@@ -374,7 +378,7 @@ test('ADD', () => {
 })
 
 test('fibonacci', () => {
-    const fibonacci = expandVariables(`
+    const fib = expandVariables(`
     15
     / 15    forever
       
@@ -731,7 +735,7 @@ test('fibonacci', () => {
         if (r >= results[results.length - 1])    // filter out overflowed
           results.push(r)
     }
-    stroke(fibonacci, '00000001', 10000, onOutput)  // start with 0, 1
+    stroke(fib, '00000001', 10000, onOutput)  // start with 0, 1
 
     expect(results).toStrictEqual([0, 1, 1, 2, 3, 5, 8, 13])
 })
