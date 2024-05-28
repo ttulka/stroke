@@ -1,2 +1,4 @@
-# stroke
-Stroke is an esoteric Turing-complete structure programming language
+# Stroke {/|\\}
+
+Stroke is an esoteric Turing-complete structured programming language.
+

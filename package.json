@@ -1,0 +1,31 @@
+{
+  "name": "stroke-lang",
+  "version": "1.0.0",
+  "description": "Stroke {/|\\} esoteric Turing-complete structured programming language",
+  "main": "stroke.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttulka/stroke.git"
+  },
+  "keywords": [
+    "stroke",
+    "stroke-lang",
+    "esolang",
+    "turing-complete",
+    "structured",
+    "programming-language",
+    "js"
+  ],
+  "author": "Tomas Tulka (ttulka)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ttulka/stroke/issues"
+  },
+  "homepage": "https://github.com/ttulka/stroke#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
