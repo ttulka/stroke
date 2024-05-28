@@ -12,7 +12,7 @@ Stroke is Turing-complete according to [the structured program theorem](https://
 
 ## Language
 
-Stroke code consists only of the stroke symbols `|`, `/`, `\`, and white spaces to separate them. All other symbols are ignored.
+Stroke code consists only of stroke symbols `|`, `/`, `\`, and white spaces to separate them. All other symbols are ignored.
 
 ### Commands
 
@@ -35,7 +35,7 @@ The example code in stroke:
 |||
 ```
 
-Can be translated into the following pseudocode:
+can be translated into the following pseudocode:
 
 ```
 flip v0
@@ -45,7 +45,7 @@ while v0
 flip v2
 ```
 
-Optionally, a command for output `!` is implemented.
+Optionally, a command for output `!` may be implemented.
 
 ### Variables
 
