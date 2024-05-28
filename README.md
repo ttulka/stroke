@@ -12,13 +12,13 @@ Stroke is Turing-complete according to [the structured program theorem](https://
 
 ## Language
 
-Stroke code consists only of stroke symbols `|`, `/`, `\`, and white spaces to separate them. All other symbols are ignored.
+Stroke code consists only of stroke symbols `/`, `|`, `\`, and white spaces to separate them. All other symbols are ignored.
 
 ### Commands
 
-| Cmd | Name | Meaning |
-| --- | ---- | ------- |
-| `/ var` | Loop start | Enters a new loop if `var` is non-zero |
+| Command | Name | Meaning |
+| -====-- | ---- | ------- |
+| `/ var` | Loop start | Enters a new loop if *var* is non-zero |
 | `\` | Loop end | Jumps back to the corresponding loop start |
 | `\|` × *n* | Flip value | Flips the value of the variable *n*-1 |
 
@@ -63,7 +63,7 @@ virtual variable   \   A    /  \   B    /  \   C    /  ...
 
 ## Examples
 
-The following examples operates on virtual 4-bit variables *A*, *B*, and *C*.
+The following examples operate on virtual 4-bit variables *A*, *B*, and *C*.
 
 ### Empty program
 
@@ -165,7 +165,7 @@ DEC B:
 
 ### Addition
 
-Having conditional branching, increment and decrement in tact, 
+Having conditional branching, increment, and decrement intact, 
   a program to add *A* and *B* is just a simple composition:
 
 ```stroke
