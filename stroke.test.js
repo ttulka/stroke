@@ -112,6 +112,95 @@ test('NZ 4-bit', () => {
     expect(stroke(nz, '1111')).toEqual('11111')
 })
 
+test('EQ 4-bit', () => {
+    // EQ A B => v8
+    // v8 = result, v9 = aux reset, v10 = aux A is zero (else), v11 = aux B is zero (else), v12 = aux running
+    const eq = expandVariables(`
+    8 12 10
+    / 0 0 11          A is one
+      / 4 4 9 11 \\   B is one
+      / 9 9 4 \\      reset B
+      / 11 11 8 12 \\ B is zero -> ne+stop
+      9 10
+    \\
+    / 9 9 0 \\        reset A
+    / 10 10           A is zero
+      / 4 4 9 8 12 \\ B is one -> ne+stop
+      / 9 9 4 \\      reset B
+    \\
+    / 12 10           so far equal
+      / 1 1 11          A is one
+        / 5 5 9 11 \\   B is one
+        / 9 9 5 \\      reset B
+        / 11 11 8 12 \\ B is zero -> ne+stop
+        9 10
+      \\
+      / 9 9 1 \\        reset A
+      / 10 10           A is zero
+        / 5 5 9 8 12 \\ B is one -> ne+stop
+        / 9 9 5 \\      reset B
+      \\
+      / 12 10           so far equal
+        / 2 2 11          A is one
+          / 6 6 9 11 \\   B is one
+          / 9 9 6 \\      reset B
+          / 11 11 8 12 \\ B is zero -> ne+stop
+          9 10
+        \\
+        / 9 9 2 \\        reset A
+        / 10 10           A is zero
+          / 6 6 9 8 12 \\ B is one -> ne+stop
+          / 9 9 6 \\      reset B
+        \\
+        / 12 10           so far equal
+          / 3 3 11          A is one
+            / 7 7 9 11 \\   B is one
+            / 9 9 7 \\      reset B
+            / 11 11 8 \\    B is zero -> ne
+            9 10
+            12              last bit -> stop
+          \\
+          / 9 9 3 \\        reset A
+          / 10 10           A is zero
+            / 7 7 9 8 \\    B is one -> ne
+            / 9 9 7 \\      reset B
+            12              last bit -> stop
+          \\
+        \\
+      \\
+    \\        
+    `)
+    expect(stroke(eq, '0000'+'0000')).toEqual('0000'+'0000'+'1')
+    expect(stroke(eq, '0001'+'0001')).toEqual('0001'+'0001'+'1')
+    expect(stroke(eq, '1001'+'1001')).toEqual('1001'+'1001'+'1')
+    expect(stroke(eq, '1000'+'1000')).toEqual('1000'+'1000'+'1')
+    expect(stroke(eq, '1111'+'1111')).toEqual('1111'+'1111'+'1')
+    expect(stroke(eq, '1011'+'1011')).toEqual('1011'+'1011'+'1')
+    expect(stroke(eq, '0011'+'0011')).toEqual('0011'+'0011'+'1')
+    expect(stroke(eq, '0110'+'0110')).toEqual('0110'+'0110'+'1')
+    expect(stroke(eq, '1100'+'1100')).toEqual('1100'+'1100'+'1')
+    expect(stroke(eq, '0100'+'0100')).toEqual('0100'+'0100'+'1')
+
+    expect(stroke(eq, '0000'+'0001')).toEqual('0000'+'0001')
+    expect(stroke(eq, '0000'+'0010')).toEqual('0000'+'001')
+    expect(stroke(eq, '0000'+'0100')).toEqual('0000'+'01')
+    expect(stroke(eq, '0000'+'1000')).toEqual('0000'+'1')
+    expect(stroke(eq, '1000'+'0001')).toEqual('1000'+'0001')
+    expect(stroke(eq, '1001'+'0001')).toEqual('1001'+'0001')
+    expect(stroke(eq, '1001'+'0101')).toEqual('1001'+'0101')
+    expect(stroke(eq, '1001'+'0111')).toEqual('1001'+'0111')
+    expect(stroke(eq, '1111'+'0111')).toEqual('1111'+'0111')
+    expect(stroke(eq, '1111'+'0110')).toEqual('1111'+'011')
+    expect(stroke(eq, '1111'+'1110')).toEqual('1111'+'111')
+    expect(stroke(eq, '1001'+'1111')).toEqual('1001'+'1111')
+    expect(stroke(eq, '1000'+'1111')).toEqual('1000'+'1111')
+    expect(stroke(eq, '1111'+'0000')).toEqual('1111')
+    expect(stroke(eq, '0001'+'0000')).toEqual('0001')
+    expect(stroke(eq, '0010'+'0000')).toEqual('001')
+    expect(stroke(eq, '0100'+'0000')).toEqual('01')
+    expect(stroke(eq, '1000'+'0000')).toEqual('1')
+})
+
 test('CLR', () => {
     const clr = expandVariables(`
     / 0 0 \\
@@ -319,62 +408,62 @@ test('ADD', () => {
 
     \\    loop end
     `)
-    expect(stroke(add, '0000 0000'.replace(' ', ''))).toEqual('')
-    expect(stroke(add, '0000 0001'.replace(' ', ''))).toEqual('0001')
-    expect(stroke(add, '0000 0010'.replace(' ', ''))).toEqual('001')
-    expect(stroke(add, '0000 0011'.replace(' ', ''))).toEqual('0011')
-    expect(stroke(add, '0000 0100'.replace(' ', ''))).toEqual('01')
-    expect(stroke(add, '0000 0101'.replace(' ', ''))).toEqual('0101')
-    expect(stroke(add, '0000 0110'.replace(' ', ''))).toEqual('011')
-    expect(stroke(add, '0000 0111'.replace(' ', ''))).toEqual('0111')
-    expect(stroke(add, '0000 1000'.replace(' ', ''))).toEqual('1')
-    expect(stroke(add, '0000 1001'.replace(' ', ''))).toEqual('1001')
-    expect(stroke(add, '0000 1010'.replace(' ', ''))).toEqual('101')
-    expect(stroke(add, '0000 1011'.replace(' ', ''))).toEqual('1011')
-    expect(stroke(add, '0000 1100'.replace(' ', ''))).toEqual('11')
-    expect(stroke(add, '0000 1101'.replace(' ', ''))).toEqual('1101')
-    expect(stroke(add, '0000 1110'.replace(' ', ''))).toEqual('111')
-    expect(stroke(add, '0000 1111'.replace(' ', ''))).toEqual('1111')
+    expect(stroke(add, '0000'+'0000')).toEqual('')
+    expect(stroke(add, '0000'+'0001')).toEqual('0001')
+    expect(stroke(add, '0000'+'0010')).toEqual('001')
+    expect(stroke(add, '0000'+'0011')).toEqual('0011')
+    expect(stroke(add, '0000'+'0100')).toEqual('01')
+    expect(stroke(add, '0000'+'0101')).toEqual('0101')
+    expect(stroke(add, '0000'+'0110')).toEqual('011')
+    expect(stroke(add, '0000'+'0111')).toEqual('0111')
+    expect(stroke(add, '0000'+'1000')).toEqual('1')
+    expect(stroke(add, '0000'+'1001')).toEqual('1001')
+    expect(stroke(add, '0000'+'1010')).toEqual('101')
+    expect(stroke(add, '0000'+'1011')).toEqual('1011')
+    expect(stroke(add, '0000'+'1100')).toEqual('11')
+    expect(stroke(add, '0000'+'1101')).toEqual('1101')
+    expect(stroke(add, '0000'+'1110')).toEqual('111')
+    expect(stroke(add, '0000'+'1111')).toEqual('1111')
 
-    expect(stroke(add, '0001 0000'.replace(' ', ''))).toEqual('0001')
-    expect(stroke(add, '0001 0001'.replace(' ', ''))).toEqual('001')
-    expect(stroke(add, '0001 0010'.replace(' ', ''))).toEqual('0011')
-    expect(stroke(add, '0001 0011'.replace(' ', ''))).toEqual('01')
-    expect(stroke(add, '0001 0100'.replace(' ', ''))).toEqual('0101')
-    expect(stroke(add, '0001 0101'.replace(' ', ''))).toEqual('011')
-    expect(stroke(add, '0001 0110'.replace(' ', ''))).toEqual('0111')
-    expect(stroke(add, '0001 0111'.replace(' ', ''))).toEqual('1')
-    expect(stroke(add, '0001 1000'.replace(' ', ''))).toEqual('1001')
-    expect(stroke(add, '0001 1001'.replace(' ', ''))).toEqual('101')
-    expect(stroke(add, '0001 1010'.replace(' ', ''))).toEqual('1011')
-    expect(stroke(add, '0001 1011'.replace(' ', ''))).toEqual('11')
-    expect(stroke(add, '0001 1100'.replace(' ', ''))).toEqual('1101')
-    expect(stroke(add, '0001 1101'.replace(' ', ''))).toEqual('111')
-    expect(stroke(add, '0001 1110'.replace(' ', ''))).toEqual('1111')
-    expect(stroke(add, '0001 1111'.replace(' ', ''))).toEqual('')
+    expect(stroke(add, '0001'+'0000')).toEqual('0001')
+    expect(stroke(add, '0001'+'0001')).toEqual('001')
+    expect(stroke(add, '0001'+'0010')).toEqual('0011')
+    expect(stroke(add, '0001'+'0011')).toEqual('01')
+    expect(stroke(add, '0001'+'0100')).toEqual('0101')
+    expect(stroke(add, '0001'+'0101')).toEqual('011')
+    expect(stroke(add, '0001'+'0110')).toEqual('0111')
+    expect(stroke(add, '0001'+'0111')).toEqual('1')
+    expect(stroke(add, '0001'+'1000')).toEqual('1001')
+    expect(stroke(add, '0001'+'1001')).toEqual('101')
+    expect(stroke(add, '0001'+'1010')).toEqual('1011')
+    expect(stroke(add, '0001'+'1011')).toEqual('11')
+    expect(stroke(add, '0001'+'1100')).toEqual('1101')
+    expect(stroke(add, '0001'+'1101')).toEqual('111')
+    expect(stroke(add, '0001'+'1110')).toEqual('1111')
+    expect(stroke(add, '0001'+'1111')).toEqual('')
 
-    expect(stroke(add, '0010 0000'.replace(' ', ''))).toEqual('001')
-    expect(stroke(add, '0010 0001'.replace(' ', ''))).toEqual('0011')
-    expect(stroke(add, '0010 0010'.replace(' ', ''))).toEqual('01')
-    expect(stroke(add, '0010 0011'.replace(' ', ''))).toEqual('0101')
-    expect(stroke(add, '0010 0100'.replace(' ', ''))).toEqual('011')
-    expect(stroke(add, '0010 0101'.replace(' ', ''))).toEqual('0111')
-    expect(stroke(add, '0010 0110'.replace(' ', ''))).toEqual('1')
-    expect(stroke(add, '0010 0111'.replace(' ', ''))).toEqual('1001')
-    expect(stroke(add, '0010 1000'.replace(' ', ''))).toEqual('101')
-    expect(stroke(add, '0010 1001'.replace(' ', ''))).toEqual('1011')
-    expect(stroke(add, '0010 1010'.replace(' ', ''))).toEqual('11')
-    expect(stroke(add, '0010 1011'.replace(' ', ''))).toEqual('1101')
-    expect(stroke(add, '0010 1100'.replace(' ', ''))).toEqual('111')
-    expect(stroke(add, '0010 1101'.replace(' ', ''))).toEqual('1111')
-    expect(stroke(add, '0010 1110'.replace(' ', ''))).toEqual('')
+    expect(stroke(add, '0010'+'0000')).toEqual('001')
+    expect(stroke(add, '0010'+'0001')).toEqual('0011')
+    expect(stroke(add, '0010'+'0010')).toEqual('01')
+    expect(stroke(add, '0010'+'0011')).toEqual('0101')
+    expect(stroke(add, '0010'+'0100')).toEqual('011')
+    expect(stroke(add, '0010'+'0101')).toEqual('0111')
+    expect(stroke(add, '0010'+'0110')).toEqual('1')
+    expect(stroke(add, '0010'+'0111')).toEqual('1001')
+    expect(stroke(add, '0010'+'1000')).toEqual('101')
+    expect(stroke(add, '0010'+'1001')).toEqual('1011')
+    expect(stroke(add, '0010'+'1010')).toEqual('11')
+    expect(stroke(add, '0010'+'1011')).toEqual('1101')
+    expect(stroke(add, '0010'+'1100')).toEqual('111')
+    expect(stroke(add, '0010'+'1101')).toEqual('1111')
+    expect(stroke(add, '0010'+'1110')).toEqual('')
 
-    expect(stroke(add, '1010 0011'.replace(' ', ''))).toEqual('1101')
-    expect(stroke(add, '1010 0001'.replace(' ', ''))).toEqual('1011')
-    expect(stroke(add, '1010 0010'.replace(' ', ''))).toEqual('11')
-    expect(stroke(add, '1111 0000'.replace(' ', ''))).toEqual('1111')
-    expect(stroke(add, '1110 0001'.replace(' ', ''))).toEqual('1111')
-    expect(stroke(add, '1100 0011'.replace(' ', ''))).toEqual('1111')
+    expect(stroke(add, '1010'+'0011')).toEqual('1101')
+    expect(stroke(add, '1010'+'0001')).toEqual('1011')
+    expect(stroke(add, '1010'+'0010')).toEqual('11')
+    expect(stroke(add, '1111'+'0000')).toEqual('1111')
+    expect(stroke(add, '1110'+'0001')).toEqual('1111')
+    expect(stroke(add, '1100'+'0011')).toEqual('1111')
 })
 
 test('fibonacci', () => {
