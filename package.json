@@ -1,7 +1,7 @@
 {
   "name": "stroke-lang",
   "version": "1.0.0",
-  "description": "Stroke {/|\\} esoteric Turing-complete structured programming language",
+  "description": "Stroke {/|\\} esoteric structured programming language",
   "main": "stroke.js",
   "scripts": {
     "test": "jest"
@@ -14,7 +14,6 @@
     "stroke",
     "stroke-lang",
     "esolang",
-    "turing-complete",
     "structured",
     "programming-language",
     "js"

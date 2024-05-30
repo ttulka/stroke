@@ -2,13 +2,11 @@
 
 <img src="logo.png" style="width: 20%; float: right; margin: 1rem 0 1rem 2rem; border-radius: 1rem; max-width: 250px; float: right" align="right" width="250">
 
-**Stroke** is an esoteric Turing-complete structured programming language.
+**Stroke** is an esoteric structured programming language.
 
 With its only three commands, it aims to be the simplest structured programming language ever.
 
 It uses conditional loops and an unbounded number of binary variables, along with a command to flip their values.
-
-Stroke is Turing-complete according to [the structured program theorem](https://en.wikipedia.org/wiki/Structured_program_theorem), as conditional branching (selection) can easily be simulated via loops.
 
 ## Language
 
@@ -292,6 +290,12 @@ The following program set the tape to `011010100100101000111101110100001`
 |||||||||||||||||||||||||||| 
 |||||||||||||||||||||||||||||||||
 ```
+
+## Computational class
+
+As every variable (bit) must be represented in code as a sequence of `|` the program cannot access an infinite number of bits as required for Turing completeness.
+
+Practically, variables of arbitrary size can be used which brings the language very close to being Turing complete according to [the structured program theorem](https://en.wikipedia.org/wiki/Structured_program_theorem), as conditional branching (selection) can easily be simulated via loops.
 
 ## JavaScript interpreter
 
