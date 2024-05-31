@@ -4,7 +4,7 @@
 
 **Stroke**, also `{/|\}`, is an esoteric structured programming language.
 
-With its only three instructions, it aims to be the simplest structured programming language ever.
+With only three instructions, it aims to be the simplest structured programming language ever.
 
 It uses conditional loops and an unbounded number of binary variables, along with flipping their values.
 
