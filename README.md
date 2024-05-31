@@ -4,25 +4,29 @@
 
 **Stroke** is an esoteric structured programming language.
 
-With its only three commands, it aims to be the simplest structured programming language ever.
+With its only three instructions, it aims to be the simplest structured programming language ever.
 
-It uses conditional loops and an unbounded number of binary variables, along with a command to flip their values.
+It uses conditional loops and an unbounded number of binary variables, along with flipping their values.
+
+Stroke is *almost* Turing complete, unlike its bigger brother [Stroke+-](https://github.com/ttulka/strokepm) which truly is.
 
 ## Language
 
-Stroke code consists only of stroke symbols `/`, `|`, `\`, and white spaces to separate them. All other symbols are ignored.
+Stroke code consists only of stroke symbols `/`, `|`, `\`, and white spaces to separate them. 
 
-### Commands
+All other symbols are ignored.
 
-| Command | Name | Meaning |
-| ------- | ---- | ------- |
-| `/ var` | Loop start | Enters a new loop if *var* is non-zero |
-| `\` | Loop end | Jumps back to the corresponding loop start |
+### Instructions
+
+| Instr      | Name       | Meaning |
+| ---------- | ---------- | ------- |
+| `/ var`    | Loop start | Enters a new loop if *var* is non-zero |
+| `\`        | Loop end   | Jumps back to the matching loop start |
 | `\|` × *n* | Flip value | Flips the value of the variable *n*-1 |
 
-All commands and attributes are separated by one or more white spaces.
+All instructions and their attributes are separated by one or more white spaces.
 
-The example code in stroke:
+The example code in Stroke:
 
 ```stroke
 | 
@@ -36,18 +40,18 @@ The example code in stroke:
 can be translated into the following pseudocode:
 
 ```
-flip v0
-while v0
-  flip v0
-  flip v1
-flip v2
+flip var0
+while var0
+  flip var0
+  flip var1
+flip var2
 ```
 
-Optionally, a command for output `!` may be implemented.
+Optionally, the instruction for output `!` may be implemented.
 
 ### Variables
 
-A stroke program runs on a theoretically infinite tape of binary cells that are randomly accessible via variables denoted by consecutive vertical stroke symbols (`|`) in unary form starting from zero. For instance, `|` flips the variable indexed by 0, `||` flips the variable indexed by 1, `|||` flips the variable indexed by 2, and so on.
+A Stroke program runs on a theoretically infinite tape of binary cells that are randomly accessible via variables denoted by consecutive vertical stroke symbols (`|`) in unary form starting from zero. For instance, `|` flips the variable indexed by 0, `||` flips the variable indexed by 1, `|||` flips the variable indexed by 2, and so on.
 
 A variable occurring in code directly after a loop start will be just read (and checked to be non-zero), while a variable anywhere else in the code will flip its binary value.
 
@@ -293,9 +297,13 @@ The following program set the tape to `011010100100101000111101110100001`
 
 ## Computational class
 
+The minimalistic nature of Stroke has its price: it had to give up Turing completeness.
+
 As every variable (bit) must be represented in code as a sequence of `|` the program cannot access an infinite number of bits as required for Turing completeness.
 
-Practically, variables of arbitrary size can be used which brings the language very close to being Turing complete according to [the structured program theorem](https://en.wikipedia.org/wiki/Structured_program_theorem), as conditional branching (selection) can easily be simulated via loops.
+However, variables of arbitrary size can be used which brings the language very close to being Turing complete according to [the structured program theorem](https://en.wikipedia.org/wiki/Structured_program_theorem), as conditional branching (selection) can easily be simulated via loops.
+
+In short, Stroke can do everything a Turing complete language can but only with limited data.
 
 ## JavaScript interpreter
 

@@ -12,7 +12,7 @@ const interpret = (program, memory, maxSteps, onOutput) => {
     while (pc < p.length && sc <= ms) {
         const inst = p[pc]
 
-        switch (inst.cmd) {
+        switch (inst.id) {
             case '*': {
                 m[inst.variable] = m[inst.variable] ? 0 : 1
                 pc++
@@ -45,8 +45,8 @@ const interpret = (program, memory, maxSteps, onOutput) => {
         let pairs = 0
         while (pc > 0) {
             pc--
-            if (p[pc].cmd === ']') pairs++
-            if (p[pc].cmd === '[') {
+            if (p[pc].id === ']') pairs++
+            if (p[pc].id === '[') {
                 if (!pairs) return pc
                 pairs--
             }
@@ -58,8 +58,8 @@ const interpret = (program, memory, maxSteps, onOutput) => {
         let pairs = 0
         while (pc < p.length - 1) {
             pc++
-            if (p[pc].cmd === '[') pairs++
-            if (p[pc].cmd === ']') {
+            if (p[pc].id === '[') pairs++
+            if (p[pc].id === ']') {
                 if (!pairs) return pc
                 pairs--
             }
@@ -97,25 +97,25 @@ function parse(program) {
     const ast = []
     let open = 0 // count of open loops
     for (let i = 0; i < source.length; i++) {
-        const cmd = source[i]
+        const instr = source[i]
         
-        if (/[|]+/.test(cmd)) { // flip variable
-            ast.push(new Instr('*', cmd.length - 1))
+        if (/[|]+/.test(instr)) { // flip variable
+            ast.push(new Instr('*', instr.length - 1))
         } else
-        if (/[/]/.test(cmd)) { // loop start
+        if (/[/]/.test(instr)) { // loop start
             open++
             i++
             if (i >= source.length || !/[|]+/.test(source[i])) throw new Error('Syntax error: missing loop variable at ' + i)
             ast.push(new Instr('[', source[i].length - 1))
         } else
-        if (/[\\]/.test(cmd)) { // loop end
+        if (/[\\]/.test(instr)) { // loop end
             open--
             ast.push(new Instr(']'))
         } else
-        if (/!+/.test(cmd)) { // output
+        if (/!+/.test(instr)) { // output
             ast.push(new Instr('!'))
         } else 
-            throw new Error('Syntax error: invalid command "' + cmd + '" at ' + i)
+            throw new Error('Syntax error: invalid instruction "' + instr + '" at ' + i)
 
         if (open < 0) throw new Error('Syntax error: missing loop start at ' + i)
     }
@@ -126,8 +126,8 @@ function parse(program) {
 }
 
 class Instr {
-    constructor(cmd, variable) {
-        this.cmd = cmd
+    constructor(id, variable) {
+        this.id = id
         this.variable = variable
     }
 }
