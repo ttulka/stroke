@@ -264,7 +264,7 @@ x
 
 ### Hello World
 
-For computing "Hello World" the tape must interpreted as a string. 
+For computing "Hello World" the tape must be interpreted as a string. 
   It can achieved by defining a binary alphabet:
 
 | Symbol | Binary |
@@ -278,7 +278,7 @@ For computing "Hello World" the tape must interpreted as a string.
 | `r`    | 110    |
 | `W`    | 111    |
 
-The following program set the tape to `011010100100101000111101110100001`
+The following program sets the tape to `011010100100101000111101110100001`
   which corresponds to "Hello World":
 
 ```stroke
